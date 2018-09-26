@@ -2,17 +2,77 @@
 title: "20180926"
 output: html_notebook
 ---
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
 ```{r}
-plot(cars)
+aVector<-c(5,6,7)
+a2Vector<-c(5L,6L,7L)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+```{r}
+num1<-1
+num2<-100
+num1+num2 
+```
+```{r}
+num1<-1.568
+num2<-2.121
+round(num1,digits = 2)
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+```{r}
+b<-"你好"
+bVector<-c("你好","How are you?")
+```
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+x <- 10
+class(x) # "numeric"
+oldClass(x) # NULL
+inherits(x, "a") #FALSE
+class(x) <- c("a", "b")
+inherits(x,"a") #TRUE
+inherits(x, "a", TRUE) # 1
+inherits(x, c("a", "b", "c"), TRUE) # 1 2 0
+```
+
+#2nd class
+
+```{r}
+round(2.3875)
+round(2.3875,digit=2)
+```
+```{r}
+library(readr)
+student <- read_csv("https://raw.githubusercontent.com/tpemartin/course-107-1-programming-for-data-science/master/data/student.csv")
+library(dplyr)
+library(magrittr)
+student %<>% mutate(
+  身高級距=cut(身高,c(0,150,155,160,165,170,175,180,185,200)))))
+```
+
+```{r}
+as.factor(student$出生地) -> student$出生地
+```
+
+```{r}
+levels(student$出生地)
+```
+
+```{r}
+table(student$出生地)
+```
+
+```{r}
+factor(student$身高級距,
+       levels=c("(0,150]","(150,155]", "(155,160]", "(160,165]" ,"(165,170]", "(170,175]" ,"(175,180]" ,"(180,185]", "(185,200]"),
+       ordered=TRUE) -> student$身高級距
+```
+
+```{r}
+library(dplyr)
+library(lubridate)
+a <- ymd("2017-01-31") 
+b <- ymd_hms("2017-01-31 20:11:59")
+```
+
+
+
