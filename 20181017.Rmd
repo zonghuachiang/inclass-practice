@@ -7,7 +7,7 @@ filmVotingData <- read_csv("https://raw.githubusercontent.com/tpemartin/course-1
 
 ```{r}
 library(stringr)
-str_split_fixed(filmVotingData$請選擇你最喜歡的影片二部, " ,", 3) -> splitResult
+str_split_fixed(filmVotingData$請選擇你最喜歡的影片二部, "," , 3) -> splitResult
 ```
 
 
@@ -18,5 +18,18 @@ head(arrayResult)
 
 ```{r}
 table(arrayResult)
+```
+
+```{r}
+library(googlesheets)
+```
+
+```{r}
+gs_auth(new_user = TRUE)
+```
+
+```{r}
+gsSurvey<-gs_key("1mC9bnxj11NCNoOCw0Vmn4nxERbHtLjeGo9v9C9b2GDE")  
+classSurvey<-gs_read(gsSurvey,ws=1) #access the 1st worksheet
 ```
 
