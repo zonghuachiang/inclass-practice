@@ -1,0 +1,62 @@
+
+```{r}
+library(googlesheets)
+```
+
+```{r}
+gs_auth(new_user = TRUE)
+```
+
+```{r}
+gsSurvey<-gs_key("1mC9bnxj11NCNoOCw0Vmn4nxERbHtLjeGo9v9C9b2GDE")
+classSurvey<-gs_read(gsSurvey,ws=1)
+```
+
+
+```{r}
+(classSurvey$性別 == "男")
+
+(classSurvey$本學期學分數 > 20)
+
+(classSurvey$性別 == "男" | 
+    classSurvey$本學期學分數 > 20)
+```
+
+```{r}
+StuDF <- data.frame(
+  StuID=c(1,2,3,4,5),
+  name=c("小明","大雄","胖虎","小新","大白"),
+  score=c(80,60,90,70,50)
+  )
+StuDF 
+```
+
+```{r}
+StuDF$StuID
+StuDF[,c("StuID")]
+StuDF$name
+StuDF[,c("name")]
+```
+
+```{r}
+names(gsSurvey)
+```
+
+```{r}
+gsSurvey$links$type
+```
+
+```{r}
+names(StuDF)
+```
+
+```{r}
+names(StuDF) <- c("學號","姓名","成績")
+names(StuDF)
+```
+
+```{r}
+names(StuDF)[2] <- c("姓名") #中括號內為第幾個字
+names(StuDF)
+```
+
