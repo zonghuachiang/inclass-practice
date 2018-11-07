@@ -90,7 +90,16 @@ collegeData %>%
 ```
 
 ```{r}
-
+#因一年級男女生資料中有逗號,無法轉成數值
+#取代逗號後再轉
+library(stringr)
+collegeData %>% 
+  mutate(
+    一年級男生=str_replace(一年級男生 ,"," ,""),
+    一年級女生=str_replace(一年級女生 ,"," ,""),
+    一年級男生=as.numeric(一年級男生),
+    一年級女生=as.numeric(一年級女生)
+  ) -> collegeData3
 ```
 
 
