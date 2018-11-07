@@ -144,3 +144,28 @@ college1stYearData %>%
     ) ->  college1stYearDataNumeric
 ```
 
+```{r}
+college1stYearDataNumeric %>%
+  mutate_all(
+    funs(
+      每百人=./100,
+      每千人=./1000
+    )
+  ) -> college1stYearDataNumeric
+
+college1stYearDataNumeric %>% colnames
+```
+
+```{r}
+collegeData %>% 
+  mutate_at(
+  vars(一年級男生,一年級女生),
+  funs(parse_number(.,locale=cl))
+) -> college1stYearDataA
+
+college1stYearDataA %>%
+  select(一年級男生,一年級女生)
+```
+
+
+
