@@ -35,3 +35,63 @@ collegeData$學校名稱 <- as.factor(collegeData$學校名稱)
 collegeData$`日間∕進修別` <- as.factor(collegeData$`日間∕進修別`)
 ```
 
+```{r}
+library(dplyr)
+mutate(
+  collegeData,
+  學校代碼=as.factor(學校代碼),
+  學校名稱=as.factor(學校名稱)
+  ) -> collegeData2
+```
+
+```{r}
+library(dplyr)
+collegeData %>%
+mutate( . ,
+  學校代碼=as.factor(學校代碼),
+  學校名稱=as.factor(學校名稱)
+  ) -> collegeData2
+```
+
+```{r}
+library(dplyr)
+collegeData %>%
+mutate( 
+  學校代碼=as.factor(學校代碼),
+  學校名稱=as.factor(學校名稱)
+  ) -> collegeData2
+```
+
+```{r}
+collegeData$`日間∕進修別` <- as.factor(collegeData$`日間∕進修別`)
+collegeData$等級別 <- as.factor(collegeData$等級別)
+collegeData$一年級男生 <- as.numeric(collegeData$一年級男生)
+collegeData$一年級女生 <- as.numeric(collegeData$一年級女生)
+```
+
+```{r}
+mutate(
+  collegeData,
+  `日間∕進修別`=as.factor(`日間∕進修別`),
+  等級別=as.factor(等級別),
+  一年級男生= as.numeric(一年級男生),
+  一年級女生= as.numeric(一年級女生)
+  ) -> collegeData3
+```
+
+```{r}
+collegeData %>% 
+  mutate(
+    `日間∕進修別`=as.factor(`日間∕進修別`),
+    等級別=as.factor(等級別),
+    一年級男生=as.numeric(一年級男生),
+    一年級女生=as.numeric(一年級女生)
+  ) -> collegeData3
+```
+
+```{r}
+
+```
+
+
+
