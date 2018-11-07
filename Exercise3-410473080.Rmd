@@ -2,7 +2,7 @@
 params:
   studentID: "410473080"
   studentName: "江宗樺"
-  repoURL: "這個作業的GitHub repo網址（選填）"
+  repoURL: "https://github.com/zonghuachiang/inclass-practice/blob/master/Exercise3-410473080.Rmd"
 ---
 存檔時，請用你的學號當延伸檔名。例如：若你的學號為41078392，則請`File->Save As...`存成Exercise3-41078392.Rmd。
 
@@ -90,7 +90,7 @@ hwData$early <- difftime(deadline,z1,"Asia/Taipei",units = c("days"))
 利用`round()`將early變數的天數四捨五入到整數。
 
 ```{r ans24}
-round(hwData$early)
+hwData$early <- round(hwData$early)
 ```
 
 ### 2.5
@@ -99,7 +99,7 @@ round(hwData$early)
 ```{r ans25}
 as.factor(hwData$作業代碼)
 hw1 <- hwData[(hwData$作業代碼=="hw1"),]
-round(hw1$early[1:30])
-table(round(hw1$early[1:30]))
+round(hw1$early[1:36])
+table(round(hw1$early[1:36]))
 ```
 
