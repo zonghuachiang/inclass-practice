@@ -1,0 +1,37 @@
+
+```{r}
+library(stringr)
+library(lubridate)
+民國年月<-c("099/01","099/02","099/03")
+
+# 1
+str_c("1",民國年月,"/01")->民國年月
+
+# 2
+lubridate::ymd(民國年月) -> 民國年月
+
+# 3
+民國年月 + years(911)
+```
+
+```{r}
+民國年月<-c("099/01","099/02","099/03")
+
+library(dplyr)
+# 1
+民國年月 %>% 
+  str_c("1", . ,"/01") %>%
+  ymd %>%
+  { . + years(911) }
+```
+
+```{r}
+library(readr)
+collegeData <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6231&md5_url=dda8fca407131483c1d8cbf3d61cf793")
+```
+
+```{r}
+collegeData$學校名稱 <- as.factor(collegeData$學校名稱)
+collegeData$`日間∕進修別` <- as.factor(collegeData$`日間∕進修別`)
+```
+
