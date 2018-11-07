@@ -102,5 +102,45 @@ collegeData %>%
   ) -> collegeData3
 ```
 
+```{r}
+library(readr)
+cl<-locale(grouping_mark = ",") 
+# 創造cl來描述千分位符號使用","的習慣場景，R就可以辨識
+collegeData %>% 
+  mutate(
+    `日間∕進修別`=as.factor(`日間∕進修別`),
+    等級別=as.factor(等級別),
+    一年級男生=parse_number(一年級男生,na=c("","NA","-"),locale=cl),
+    一年級女生=parse_number(一年級女生,na=c("","NA","-"),locale=cl)
+  ) -> collegeData4
+```
 
+```{r}
+problems(collegeData4$一年級男生)
+collegeData$一年級男生
+```
+
+```{r}
+collegeData %>% 
+  mutate(
+    `日間∕進修別`=as.factor(`日間∕進修別`),
+    等級別=as.factor(等級別),
+    一年級男生=parse_number(一年級男生,locale=cl),
+    一年級女生=parse_number(一年級女生,locale=cl),
+    一年級男生每千人=一年級男生/1000,
+    一年級女生每千人=一年級女生/1000
+    ) -> collegeData5
+```
+
+
+
+```{r}
+library(stringr)
+college1stYearData %>%
+  mutate_all(
+    funs(
+      parse_number(.,locale=cl)
+      )
+    ) ->  college1stYearDataNumeric
+```
 
