@@ -20,49 +20,49 @@ gsHW2ws <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/mas
 請算出題號**ans1**的答對率
 (hint: 使用`sum(x, na.rm=TRUE)` 或 `mean(x, na.rm=TRUE)`來記算數值向量的**總合**(sum)或**平均**(mean)， 其中因為資料有無法判斷的NA值，所以必需設定na.rm=TRUE，表示計算時先排除NA的觀測值。)
 ```{r ans1}
-sum(gsHW2ws$ans1, na.rm=TRUE)
+mean(gsHW2ws$ans1, na.rm=TRUE)
 ```
 
 ## 1.2
 使用`stringr::str_which()`來找出gsHW2ws中所有變數名稱包含的"ans"的欄位位置。
 ```{r ans12}
 library(stringr)
-str_which(gsHW2ws[1:45,1:6], "ans")
+str_which(names(gsHW2ws), "ans")
 ```
-
-```{r}
-fruit <- c("apple", "banana", "pear", "pinapple")
-str_subset(fruit, "a")
-str_which(fruit, "a")
-```
-
 
 ## 1.3
 使用`colMeans(x, na.rm=T)`一口氣計算五題的正確率（產生一個包含5題正確率的數值向量）。
 ```{r ans13}
-
+colMeans(gsHW2ws[1:5], na.rm=T)
 ```
 
 ## 1.4
 透過`gsHW2ws$答對率 <- ...` 在gsHW2ws新增一個欄位變數叫「答對率」, 其值為每個人各自在5題的正確比率。（hint: `rowSums(x, na.rm=TRUE)`) 
 ```{r ans14}
+gsHW2ws$答對率 <- rowSums(gsHW2ws[1:5],na.rm=T)/5
 ```
 
 ## 1.5
 作業成績為5分加上「答對率」* 5。請在gsHW2ws新增「成績」欄位，並填入每個人的成績值。  
 ```{r ans15}
+gsHW2ws$成績 <- gsHW2ws$答對率*5
 ```
 
-## 1.6
+## 1.6(?)
 答對4題的人，最常錯的問題是那兩題？請找出其題目代碼。(`min()`與`max()`可找出極小與極大值，而`which()`可找出符合設定條件的元素位置)
 ```{r ans16}
+a <- gsHW2ws[(gsHW2ws$答對率==0.8),]
+min(colMeans(a[1:5]))
+which(colMeans(a[1:5],na.rm=T)==min(colMeans(a[1:5])))
 ```
 
 ## 1.7
 答對3題的人，有那幾題正確率低於5成？請找出其題目代碼。
 ```{r ans17}
+b <- gsHW2ws[(gsHW2ws$答對率==0.6),]
+b1 <- colMeans(b[1:5],na.rm=T)
+which(b1<0.5)
 ```
-
 
 ## 2 政府開放資料
 
@@ -96,8 +96,8 @@ allBankData %>%
 mutate( . ,
         銀行=as.character(銀行),
         年月=as.Date(年月),     
-        `定存利率-三個月-固定`=as.factor(`定存利率-三個月-固定`),
-        `定存利率-一年期-固定`=as.factor(`定存利率-一年期-固定`)
+        `定存利率-三個月-固定`=as.numeric(`定存利率-三個月-固定`),
+        `定存利率-一年期-固定`=as.numeric(`定存利率-一年期-固定`)
         )
 
 ```
@@ -112,16 +112,46 @@ exData <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=6563&md5
 ## 3.1
 將所有變數的class修正正確。改題方式會去檢查整個dataframe中所有欄位的class，故最後一行請寫dataframe名稱。(hint: 使用`mutate_at()`)
 ```{r ans31}
+exData$期間 %>%
+str_replace( . ,"M","") %>%
+str_c( . ,"01") %>%
+ymd -> exData$期間
+exData %>%
+mutate_at( . ,
+  vars(期間),
+  funs(as.Date)
+  ) -> exData2
+exData %>%
+mutate_at( . ,
+  vars(contains("USD")),
+  funs(as.numeric)
+  ) -> exData2
+exData2
+
 ```
 
-## 3.2
+## 3.2(?)
 每一國家對其貨幣匯率有兩種標示方式，以台灣看新台幣為例：一種為direct quote，標示為USD/NTD，代表一塊新台幣（NTD）可以換多少美元（USD)； 另一種為indirect quote，標示為NTD/USD，代表一塊美金（USD）可以換多少新台幣（NTD）--兩者互為倒數關係，即若NTD/USD=40，則USD/NTD=1/40。不同國家貨幣的匯率習慣標示皆有所不同，請將資料中的貨幣都轉成"XXX/USD"，即"USD"在分母。改題方式會去檢查整個dataframe中需要改的那幾欄，故那幾欄的名稱請勿更動，最後一行程式請寫dataframe名稱。(hint: 使用`mutate_at()`) 
 
 ```{r ans32}
+cl <- locale(decimal_mark = ".")
+exData2 %>%
+mutate_at( . ,
+  vars(`英鎊USD/GBP`,`澳幣USD/AUD`,`歐元USD/EUR`),
+  funs(parse_number(.,locale=cl)
+        )) -> exData3
+1/exData2$`英鎊USD/GBP` -> exData3$`英鎊USD/GBP`
+1/exData2$`澳幣USD/AUD` -> exData3$`澳幣USD/AUD`
+1/exData2$`歐元USD/EUR` -> exData3$`歐元USD/EUR`
+exData3
 ```
 
-## 3.3
+## 3.3(?)
 將上題轉換的匯率變數名稱中英文拿掉，如原名為"英鎊USD/GBP"則需改成"英鎊"。改題方式會去檢查整個dataframe中需要改的那幾欄的欄位名稱，故最後一行請寫dataframe名稱。
 (hint: `colnames()`支援generic replacement; `str_locate()`可找出元素中某個符號的位置;`str_sub()`可取出所要字元)
 ```{r ans33}
+
 ```
+
+
+
