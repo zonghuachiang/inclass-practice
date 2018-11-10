@@ -137,12 +137,13 @@ exData2
 cl <- locale(decimal_mark = ".")
 exData2 %>%
 mutate_at( . ,
-  vars(`英鎊USD/GBP`,`澳幣USD/AUD`,`歐元USD/EUR`),
+  vars(contains("USD/")),
   funs(parse_number(.,locale=cl)
         )) -> exData3
-1/exData2$`英鎊USD/GBP` -> exData3$`英鎊USD/GBP`
-1/exData2$`澳幣USD/AUD` -> exData3$`澳幣USD/AUD`
-1/exData2$`歐元USD/EUR` -> exData3$`歐元USD/EUR`
+exData2 %>%
+mutate_at( . ,
+  vars(contains("USD/")),
+  funs(.^-1)) -> exData3
 exData3
 ```
 
