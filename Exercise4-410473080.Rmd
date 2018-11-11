@@ -151,7 +151,18 @@ exData3
 將上題轉換的匯率變數名稱中英文拿掉，如原名為"英鎊USD/GBP"則需改成"英鎊"。改題方式會去檢查整個dataframe中需要改的那幾欄的欄位名稱，故最後一行請寫dataframe名稱。
 (hint: `colnames()`支援generic replacement; `str_locate()`可找出元素中某個符號的位置;`str_sub()`可取出所要字元)
 ```{r ans33}
-
+library(stringr)
+colnames(exData3)
+str_locate(colnames(exData3),"USD/")
+repnames <- str_sub(colnames(exData3),1,2)
+repnames
+exData3 -> exData4
+str_locate(repnames,"英鎊")
+colnames(exData4[4]) <- str_sub(repnames[4]) 
+str_sub(repnames[10]) -> colnames(exData4[10])
+str_sub(repnames[15]) -> colnames(exData4[15])
+colnames(exData4)
+exData4
 ```
 
 
