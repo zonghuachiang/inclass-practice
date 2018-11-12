@@ -94,7 +94,7 @@ class(allBankData$`定存利率-三個月-固定`)
 class(allBankData$`定存利率-一年期-固定`)
 allBankData %>%
 mutate( . ,
-        銀行=as.character(銀行),
+        銀行=as.factor(銀行),
         年月=as.Date(年月),     
         `定存利率-三個月-固定`=as.numeric(`定存利率-三個月-固定`),
         `定存利率-一年期-固定`=as.numeric(`定存利率-一年期-固定`)
@@ -159,8 +159,9 @@ repnames
 exData3 -> exData4
 str_locate(repnames,"英鎊")
 colnames(exData4[4]) <- str_sub(repnames[4]) 
-str_sub(repnames[10]) -> colnames(exData4[10])
-str_sub(repnames[15]) -> colnames(exData4[15])
+colnames(exData4[10]) <- str_sub(repnames[10]) 
+colnames(exData4[15]) <- str_sub(repnames[15]) 
+colnames(exData4)[c(4,10,15)] <-str_sub(repnames[c(4,10,15)])
 colnames(exData4)
 exData4
 ```
