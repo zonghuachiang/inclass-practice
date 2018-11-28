@@ -37,18 +37,6 @@ as.Date(z1, "%Y-%m-%d")
 
 ```
 
-```{r}
-
-
-x <- c(as = "asfef", qu = "qwerty", "yuiop[", "b", "stuff.blah.yech")
-# split x on the letter e
-strsplit(x, "e")
-
-??lubridate::with_tz()
-
-```
-
-
 ## 2
 Google天災地圖會發佈天災時地資訊，如[潭美颱風(Typhoon Trami)](https://google.org/crisismap/google.com/2018-trami)，但它的時間是以UTC表示，如"2018/30/09 00:00 UTC",試透過`lubridate::with_tz()`將"2018/30/09 00:00 "轉成台灣時間。(Hint: 台灣tzone可用`grep("Taipei",OlsonNames(),value=TRUE)`指令查得)
 
