@@ -59,3 +59,27 @@ libraryData$學院=="人文學院" -> logindex
 libraryData[logindex,] -> subsample
 ```
 
+創造一個函數來做重複的步驟
+```{r}
+findmycollege <- function(x){
+  (libraryData$學院==x) -> logindex
+libraryData[logindex,] -> subsample
+return(subsample)
+}
+```
+
+```{r}
+findmycollege("人文學院") -> sample1
+nrow(sample1)
+findmycollege("社會科學院") -> sample2
+nrow(sample2)
+```
+
+```{r}
+libraryData %>%
+  group_by(學院) %>%
+  summarise(
+    學院借閱冊數=length(學號)
+  )
+```
+
