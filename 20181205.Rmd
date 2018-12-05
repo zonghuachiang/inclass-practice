@@ -43,3 +43,19 @@ minMaxFun <- function(x){
 }
 ```
 
+```{r}
+not_numeric<-function(x){
+  !is.numeric(x)
+}
+```
+
+```{r}
+not_numeric(libraryData$學號)
+```
+
+找出屬於"人文學院"的子樣本
+```{r}
+libraryData$學院=="人文學院" -> logindex
+libraryData[logindex,] -> subsample
+```
+
