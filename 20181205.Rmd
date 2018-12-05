@@ -1,13 +1,11 @@
 
+```{r}
+library(readr); library(dplyr); library(stringr); library(lubridate)
+```
 
 ```{r}
 library(readr)
 libraryData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/library100_102.csv")
-```
-
-```{r}
-library(dplyr)
-library()
 ```
 
 ```{r}
