@@ -149,7 +149,7 @@ meanGradeMaleWithNoAct-meanGradeMaleWithAct
 # 2. 誰會拖？
 誰先執行以下資料引入：
 ```{r}
-hwSubmit <- read.csv("hwSubmit.csv")
+hwSubmit <- read_csv("hwSubmit.csv")
 ```
 
 ## 2.1 class檢查
