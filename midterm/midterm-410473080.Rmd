@@ -34,7 +34,7 @@ hwGrades <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/ma
 請將classSurvey資料中的**性別**變數轉成factor class. 
 
 ```{r ans1b1}
-as.factor(classSurvey$性別)
+as.factor(classSurvey$性別) -> classSurvey$性別
 ```
 
 ### 1.Basic(2) 
@@ -72,11 +72,14 @@ as.factor(classSurvey$性別)
 ## 1.1 男女性比例
 從**classSurvey**中統計本班男女比例。(hint: 使用`table()`得到人數，之後再將它的回傳值除以全班人數，即為比例)
 ```{r ans11}
+table(classSurvey$性別)/nrow(classSurvey)
 ```
 
 ## 1.2 參加「團隊活動」的人數
 承上題。從**classSurvey**裡的**課外活動**變數計算有多少人勾選有參與"團隊活動"。(hint: 使用`str_detect()`來查詢在指定character vector由，某個特殊字眼出現在那幾個element，有出現的會標示TRUE, 沒有則為FALSE。在R裡TRUE有數字1的意思，而FALSE即為0，若要計算TRUE/FALSE logical vector裡TRUE的個數，只需`sum()`。)
 ```{r ans12}
+str_detect(classSurvey$課外活動,"團隊活動")
+sum(str_detect(classSurvey$課外活動,"團隊活動")==1)
 ```
 
 ## 1.3 女性的「團隊活動」參與意願
@@ -85,18 +88,24 @@ as.factor(classSurvey$性別)
 從**classSuvey$性別**建立一個isFemale的TRUE/FALSE邏輯向量，它用來表示在**classSurvey**裡，觀測值若來自女性則為TRUE，反之為FALSE。（hint: 使用`==`）
 
 ```{r ans131}
+subsample <- classSurvey[classSurvey$性別=="女", ]
 ```
 
 ### 1.3.2
 從**classSurvey**選出純女性的樣本取名為subsample（即去除男性的觀測行；但所有變數均需保留）。（hint: 使用1.3.1）
 
 ```{r ans132}
+subsample <- classSurvey[classSurvey$性別=="女", ]
 ```
 
 ### 1.3.3
 **classSurvey**的女同學裡有多少比例有參加"團隊活動"（結果必需是numeric vector含有「有參加」及「沒有參加」的比例值）。
 
 ```{r ans133}
+str_detect(subsample$課外活動,"團隊活動")
+table(str_detect(subsample$課外活動,"團隊活動")) 
+table(str_detect(subsample$課外活動,"團隊活動"))/nrow(subsample) 
+as.numeric(table(str_detect(subsample$課外活動,"團隊活動"))/nrow(subsample))
 ```
 
 > 小知識：在資料中，最後女性「有參與」團隊活動的人數是女性「沒有參與」的2.07倍；而男性則是2.4倍。
@@ -111,6 +120,10 @@ is.na(aaa)
 記算每個人的**交作業次數**並在**hwGrades**新增**交作業次數**變數來儲存結果。(最後一行請打hwGrades顯示你的全部dataframe，批改程式會去比對hwGrades中的**交作業次數**欄位。) (hint: 利用`is.na()`去判斷每個作業是否有交，接著把每個人在三次作業的is.na判斷之TRUE/FALSE值加起來。) 
 
 ```{r ans14}
+is.na(hwGrades[c(2,3,4)]) 
+rowSums(is.na(hwGrades[c(2,3,4)]))
+3-rowSums(is.na(hwGrades[c(2,3,4)]))-> hwGrades$交作業次數
+hwGrades
 ```
 
 ## 1.5 計算平均成績  
@@ -118,12 +131,15 @@ is.na(aaa)
 (hint: 使用`rowSums()`)
 
 ```{r ans15}
+hwGrades$平均成績 <- rowSums(hwGrades[c(2,3,4)],na.rm = TRUE)/3
+hwGrades
 ```
 
 ## 1.6 誰填了問卷？
 從**hwGrades**資料中選出那些**學號**有出現在**classSurvey**資料**學號**中的子樣本。（結果必需是個dataframe，它有和**hwGrades**一樣的column數目，但row只包含那些符合條件的觀測樣本；row個數會縮小。）(hint: 參見1.Basic(3)題)
 
 ```{r ans16}
+hwGrades[hwGrades$學號 %in% classSurvey$學號,] -> hwGradeSubsample
 ```
 
 > 以下各題均以「有填」classSurvey的人為主，即hwGrades的縮小子樣本，我們稱此子樣本為hwGradeSubsample（你不一定要用這個名稱，但後面各題請把hwGradeSubsample替換成你用的dataframe名稱）。
@@ -133,11 +149,14 @@ is.na(aaa)
 (hint: 使用`%in%`找出**classSurvey**屬於女性的學號)
 
 ```{r ans17}
+hwGradeSubsample$女性 <- hwGradeSubsample$學號 %in% subsample$學號 
+hwGradeSubsample 
 ```
 
 ## 1.8 性別與學業表現：男性
 依**hwGradesSubsample**的**平均成績**及**女性**變數來記算出男性的「平均」**平均成績**。(最後一行必需出現此平均值)
 ```{r ans18}
+mean(hwGradeSubsample$平均成績[hwGradeSubsample$女性==FALSE])
 ```
 
 > 小知識：資料中女性平均成績表現高於男性近2.39分（滿分10分）
@@ -145,6 +164,9 @@ is.na(aaa)
 ## 1.9 團隊活動與學業表現：女性
 請由**hwGradesSubsample**中計算女性「有參與」團隊活動的平均**平均成績**值。(最後一行必需出現此平均值) (hint: 可參考1.7來確認**hwGradesSubsample**有誰有參與團隊活動)
 ```{r ans19}
+str_detect(subsample$課外活動,"團隊活動") -> female_groupactivity
+hwGradeSubsample$團隊活動 <- hwGradeSubsample$學號 %in% subsample$學號[female_groupactivity]
+mean(hwGradeSubsample$平均成績[hwGradeSubsample$女性==TRUE & hwGradeSubsample$團隊活動==TRUE])
 ```
 
 > 小知識：資料中女性「沒有參與」團隊活動的成績表現平均高於「有參與」的女性約2.14分；而這差距在男生中只有約1.74分。
@@ -152,30 +174,34 @@ is.na(aaa)
 # 2. 誰較早交作業？
 請先執行以下程式引入學生交作業時間**hwSubmit**的資料：
 ```{r data2}
-hwSubmit <- read.csv("https://raw.githubusercontent.com/tpemartin/github-data/master/hwSubmit.csv")
+hwSubmit <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/hwSubmit.csv")
 ```
 
 ## 2.1 class檢查
 請將**hwSubmit**的所有變數調整成正確的class，其中**Timestamp**為UTC時區，請將它轉成台灣Asia/Taipei時區。（最後一行請打hwSubmit, 程式將檢查裡面所有變數的class是否正確。）
 ```{r ans21}
+as.Date(hwSubmit$Timestamp)
+ymd_hms(hwSubmit$Timestamp,tz="Asia/Taipei")
+as.character(hwSubmit$學號)
+hwSubmit
 ```
 
 ## 2.2 交作業時間: Exercise3
 取出**hwSubmit**中**作業代碼**為Exercise3的子樣本，稱它為**hwSubmit3**。Exercise3的截止時日是台灣時間2018-11-06 00:00:00，請計算每個人該作業離截止時日還有多少小時。（請於**hwSubmit3**中創一個新變數**截止時差**存入每個人的時差小時值，程式最後一行請打hwSubmit3，程式將檢查裡面的**截止時差**是否正確。）(hint: `difftime()`)
 ```{r ans22}
+hwSubmit3 <- hwSubmit[hwSubmit$作業代碼=="Exercise3",]
+deadline <- ymd_hms("2018-11-06 00:00:00",tz="Asia/Taipei")
+hwSubmit3$截止時差 <- difftime(deadline,hwSubmit3$Timestamp,units = "hours")
+hwSubmit3
 ```
 
 ## 2.3 性別差異
 **hwSubmit3**中, 女性「平均」截止時差比男性多多少小時呢？（最後一行答案必須女生減去男性的值。）
 
 ```{r ans23}
-```
-
-```{r ans23-1}
-```
-
-
-```{r ans23-2}
+mean(hwSubmit3$截止時差[hwSubmit3$女性==TRUE])
+mean(hwSubmit3$截止時差[hwSubmit3$女性==FALSE])
+mean(hwSubmit3$截止時差[hwSubmit3$女性==TRUE])-mean(hwSubmit3$截止時差[hwSubmit3$女性==FALSE])
 ```
 
 > 小知識：第一次作業男性平均早女性7.5小時交，第二次作業早35.5小時。
