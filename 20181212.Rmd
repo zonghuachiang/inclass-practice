@@ -126,3 +126,49 @@ for(i in 1:10){
 }
 ```
 
+```{r}
+libraryData %>%
+  group_by(書籍館藏地) %>%
+  summarise(
+    borrowCount=length(學號)
+  ) -> result
+result
+```
+
+#double loops
+```{r}
+libraryData %>%
+  mutate(
+    學系=str_sub(學號,5,6)
+    ## 相當於 libraryData$學系 <- str_sub(libraryData$學號,5,6)
+  ) -> libraryData
+```
+
+```{r}
+libraryData %>%
+  group_by(學院,入學年) %>%
+  summarise(
+    borrowCount=length(學號)
+  ) -> result2
+result2
+```
+ 
+ 
+```{r}
+#0 container
+ for(i in seq_along(College)){
+  for(j in seq_along(EntranceYear)){
+    #1
+    
+    #2
+    
+    #3
+    
+    #4
+    
+    
+  }
+  
+  
+}
+ ```
