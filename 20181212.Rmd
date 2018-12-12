@@ -67,7 +67,62 @@ for(i in c(1:18)){
 names(allBorrowCount) <- storageLocations 
 ```
 
+#每一個學院的借書量
 ```{r}
 
+libraryData$學院 %>%
+  as.factor %>%
+  levels -> college
+```
+
+```{r}
+allBorrowCount2 <- vector("numeric",6)
+for(i in c(1:6)){
+  # 1
+  college_i <- college[i] 
+  # 2
+  numericalIndexForSubsample2<-which(libraryData$學院==college_i)
+  subsample2_i <- libraryData[numericalIndexForSubsample2,]
+  # 3
+  borrowCount2_i <- nrow(subsample2_i)
+  # 4
+  allBorrowCount2[[i]]<-borrowCount2_i  
+}
+names(allBorrowCount2) <- college
+allBorrowCount2
+```
+
+## 不同學院借書量
+```{r}
+libraryData$學院 %>% as.factor %>% levels -> college
+```
+
+#每位學生借書量
+```{r}
+libraryData$學號 %>% as.factor %>% levels -> student
+libraryData$學號 %>% unique -> student
+#0
+studentBorrow <- vector("numeric", length(student))
+for(i in c(1:length(student))){
+# 1
+student_i <- student[i]
+# 2
+numericalIndex <- which(libraryData$學號 == student_i)
+studentSubsample_i <- libraryData[numericalIndex,]
+# 3
+studentBorrow_i <- nrow(studentSubsample_i)
+# 4
+studentBorrow[[i]] <- studentBorrow_i
+}
+```
+
+$$\sum_{i=1}^{10} i$$
+
+```{r}
+ans<-0
+for(i in 1:10){
+  newlyAdded<-i
+  ans<-ans+newlyAdded
+}
 ```
 
