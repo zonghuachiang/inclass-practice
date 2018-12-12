@@ -8,3 +8,66 @@ libraryData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data
 library(readr); library(dplyr); library(stringr); library(lubridate)
 ```
 
+```{r}
+#sol(1)
+libraryData$書籍館藏地 <- as.factor(libraryData$書籍館藏地)
+levels(libraryData$書籍館藏地) -> storageLocations
+```
+
+```{r}
+ #sol(2)
+libraryData$書籍館藏地 %>% 
+  as.factor %>% 
+  levels -> storageLocations
+```
+
+```{r}
+i<-1
+# 1
+storageLocation_i <- storageLocations[i] 
+# 2
+numericalIndexForSubsample<-which(libraryData$書籍館藏地==storageLocation_i)
+subsample_i <- libraryData[numericalIndexForSubsample,]
+# 3
+borrowCount_i <- nrow(subsample_i)
+```
+
+```{r}
+# 0
+allBorrowCount <- vector("numeric",18)
+i<-1
+  # 1
+  storageLocation_i <- storageLocations[i] 
+  # 2
+  numericalIndexForSubsample<-which(libraryData$書籍館藏地==storageLocation_i)
+  subsample_i <- libraryData[numericalIndexForSubsample,]
+  # 3
+  borrowCount_i <- nrow(subsample_i)
+  # 4
+  allBorrowCount[[i]]<-borrowCount_i
+```
+
+```{r}
+# 0
+allBorrowCount <- vector("numeric",18)
+for(i in c(1:18)){
+  # 1
+  storageLocation_i <- storageLocations[i] 
+  # 2
+  numericalIndexForSubsample<-which(libraryData$書籍館藏地==storageLocation_i)
+  subsample_i <- libraryData[numericalIndexForSubsample,]
+  # 3
+  borrowCount_i <- nrow(subsample_i)
+  # 4
+  allBorrowCount[[i]]<-borrowCount_i  
+}
+```
+
+```{r}
+names(allBorrowCount) <- storageLocations 
+```
+
+```{r}
+
+```
+
