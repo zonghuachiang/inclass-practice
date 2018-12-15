@@ -66,10 +66,11 @@ summarise(總修習學分數=sum(學分數),
 mutate(subsample,
        學期成績 >= 60 -> subsample$及格)
 subsample %>%
-summarise(學號=,
+summarise(學號=table(學號),
           總修習學分數=sum(學分數),
           總實得學分數=sum(學分數[subsample$及格])
           )
+
 ```
 
 ## 1.4 學分數計算函數
@@ -114,10 +115,12 @@ unique(a$科目名稱) -> 通識科目總表
   
   
 ```{r ans17}
-table(transcriptData$系別) -> class
+table(transcriptData$系別,responseName=F) -> class
+class
 shannon <- function(x){
-  class[x]
-  class[1]
+  
+  
+  
   sum()
 }
 ```
