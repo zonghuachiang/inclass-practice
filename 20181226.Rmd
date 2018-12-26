@@ -1,0 +1,51 @@
+---
+title: '2018-12-26'
+author: "江宗樺"
+date: "12/26/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr); library(dplyr); library(stringr); library(lubridate)
+```
+
+```{r}
+install.packages("plotly")
+```
+
+```{r}
+plasticContainer <- list(
+  greenBox=c("paper","scissor"),     # location 1
+  redBox=c(1L,3L,2.5),               # location 2
+  blueBox=c(TRUE,FALSE,TRUE,TRUE)    # location 3
+)
+```
+
+#sol1
+```{r}
+plasticContainer["greenBox"] # or plasticContainer[c(1,2)]
+```
+
+#sol2
+```{r}
+plasticContainer[["greenBox"]] # or plasticContainer[[1]]
+```
+
+#sol3
+```{r}
+plasticContainer$greenBox
+```
+
+```{r}
+plasticContainer$greenBox[1]
+```
+
+
+```{r}
+
+```
+
