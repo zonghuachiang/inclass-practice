@@ -38,14 +38,38 @@ plasticContainer[["greenBox"]] # or plasticContainer[[1]]
 #sol3
 ```{r}
 plasticContainer$greenBox
+# [[]] = $ 兩個中括號等於錢符號的功能 
 ```
 
+#承上，從GreenBox中取出paper
+#sol1
+```{r}
+plasticContainer["greenBox"]$greenBox[1]
+```
+
+#sol2
+```{r}
+plasticContainer[["greenBox"]][1]
+```
+
+#sol3
 ```{r}
 plasticContainer$greenBox[1]
 ```
 
+## plotly example
 
 ```{r}
-
+download.file("https://github.com/tpemartin/github-data/blob/master/plotly_4070_neda.Rda?raw=true",destfile = "plotly_4070_neda.Rda")
+load("plotly_4070_neda.Rda")
+library(plotly)
+plotly_4070_neda
 ```
+
+```{r}
+plotli_4070_neda$x$layout$shapes[[1]]$opacity
+```
+
+
+
 
