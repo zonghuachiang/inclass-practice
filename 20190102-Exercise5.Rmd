@@ -265,3 +265,7 @@ transcriptData$系別[filteredLogiIndex] %>% shannon
 ```
 
 > Shannon index值越高表示學生系別背景越多樣化。
+## Challenge
+在trasncriptData創新logic變數**每週一第6節有課**
+```{r}
+```
