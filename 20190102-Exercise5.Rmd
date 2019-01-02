@@ -132,8 +132,86 @@ answerList<-map(seq_along(allStudentID),totalCreditsOfStudent_i)
 
 
 ```{r}
-totalCredits
+map(allStudentID,totalCredits)-> answerList2
 ```
+
+```{r}
+transcriptData
+```
+
+```{r}
+  transcriptData %>%
+    group_by(學號) %>%
+    mutate(
+      及格=(學期成績>=60)
+    ) %>%
+    summarise(
+      總修習學分數=sum(學分數),
+      總實得學分數=sum(學分數[及格])
+    ) -> finalResult
+```
+
+
+## Lazy evaluation
+
+<http://adv-r.had.co.nz/Functions.html>
+
+```{r}
+b<-3
+examplefun <- function(a){
+  a+b
+}
+examplefun(10)
+```
+
+```{r}
+b<-3
+examplefun2 <- function(a,b){
+  a+b
+}
+examplefun2(10,b)
+b<-c("aa","cc")
+examplefun2(10,b)
+```
+
+
+```{r}
+b<-c("aa","cc")
+examplefun(10)
+```
+
+## codetools
+下載codetools後
+```{r}
+library(codetools)
+findGlobals(totalCredits)
+```
+
+```{r}
+totalCredits2<-function(x,transcriptData){
+  #transcriptData[transcriptData$學號==x,]->subsample 
+  transcriptData %>%
+    filter(學號==x) %>%
+    mutate(
+      及格=(學期成績>=60)
+    ) %>%
+    summarise(
+      學號=學號[1],
+      總修習學分數=sum(學分數),
+      總實得學分數=sum(學分數[及格])
+    ) -> finalResult
+  return(finalResult)
+}
+```
+
+```{r}
+findGlobals(totalCredits2)
+```
+
+```{r}
+totalCredits2(allStudentID[1],transcriptData)
+```
+
 
 ## 1.5 取出系別代號
 
